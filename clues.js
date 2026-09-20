@@ -1,59 +1,16 @@
-/* ============================================================
-   EDIT THIS FILE. This is the whole treasure hunt.
-   Photos/audio go in /media/
-   After editing, commit/push. GitHub Pages updates in ~1 minute.
-   ============================================================ */
-
 window.HUNT = {
-  herName: "amor",
+  herName: "Angela",
   fromName: "Malcolm",
-  title: "Un tesoro para vos",
-  subtitle: "Escaneá cada código. Cada uno abre la siguiente pista.",
-  language: "es",
+  title: "For Angela",
+  subtitle: "Scan each code. Each one opens the next clue.",
+  language: "en",
   baseUrl: "https://seithreaper.github.io/for-her/",
-  finalUnlock: "",
-
+  finalUnlock: "09192014",
   stops: [
-    {
-      n: 1,
-      title: "Pista 1",
-      clue: "Empezamos acá. El siguiente código está donde arranca el día — cerca de donde guardamos las tazas.",
-      hint: "Cocina. Pensá en café.",
-      image: "",
-      audio: ""
-    },
-    {
-      n: 2,
-      title: "Pista 2",
-      clue: "Bien. Ahora buscá el lugar donde el mundo se apaga un rato y solo quedamos nosotros.",
-      hint: "Donde nos sentamos a ver algo juntos.",
-      image: "",
-      audio: ""
-    },
-    {
-      n: 3,
-      title: "Pista 3",
-      clue: "Casi. El próximo código está entre páginas — el libro que dejaste a medio leer.",
-      hint: "Mesa de luz o estante.",
-      image: "",
-      audio: ""
-    },
-    {
-      n: 4,
-      title: "Pista 4",
-      clue: "Último escondite: donde te ves antes de salir. Algo pequeño, pegado al borde.",
-      hint: "Espejo o tocador.",
-      image: "",
-      audio: ""
-    },
-    {
-      n: 5,
-      title: "Llegaste",
-      final: true,
-      clue: "",
-      letter: "Amor,\n\nReemplazá este texto con lo que querés que ella lea al final.\n\nPodés pegar fotos abajo en images y un audio si querés que suene algo.\n\nTe quiero.",
-      images: [],
-      audio: ""
-    }
+    { n: 1, title: "Where it started", clue: "First stop. The next code is where the day begins \u2014 near the cups.", hint: "Kitchen. Think coffee.", image: "media/love.jpg" },
+    { n: 2, title: "Out there", clue: "Good. Now look where the world drops away and it is just us.", hint: "Where you sit together.", image: "media/falls.jpg" },
+    { n: 3, title: "Close", clue: "Almost. Next code is near where you two lean in and the clock does not matter.", hint: "Phone, nightstand, or the spot you crash.", image: "media/selfie.jpg" },
+    { n: 4, title: "Home", clue: "Last hide: where she sleeps with the small one. Soft. Quiet.", hint: "Couch or bed. Look by the dog.", image: "media/dog.jpg" },
+    { n: 5, title: "You found it", final: true, letter: "Angela,\n\nReplace this letter with what you want her to read.\n\nThe photos and the racing clip are below.\n\nI love you.", images: ["media/love.jpg","media/falls.jpg","media/selfie.jpg","media/dog.jpg","media/family.jpg","media/bath.jpg"], video: "media/race.mp4" }
   ]
 };
