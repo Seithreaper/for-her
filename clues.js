@@ -10,7 +10,7 @@ window.HUNT = {
     { id: "hearth",  n: 1, x: 72,  y: 198, label: "Cookies" },
     { id: "cliff",   n: 2, x: 168, y: 52,  label: "Game room" },
     { id: "lantern", n: 3, x: 258, y: 128, label: "Bedroom" },
-    { id: "den",     n: 4, x: 78,  y: 96,  label: "Harbor" },
+    { id: "den",     n: 4, x: 78,  y: 96,  label: "I’m sorry" },
     { id: "cross",   n: 5, x: 168, y: 158, label: "X" }
   ],
   stops: [
@@ -35,11 +35,18 @@ window.HUNT = {
       n: 3, pin: "lantern", title: "Something with lights",
       quote: "I built you a lightbulb Christmas ornament.",
       riddle: "Find the quiet room on the map \u2014 the one that holds you.",
-      clue: "This is where you are comfortable now. Unfortunately I\u2019m the one that made sure you don\u2019t leave this room anymore. I\u2019m sorry.",
+      clue: "This is where you are comfortable now. Unfortunately I’m the one that made sure you don’t leave this room anymore. I’m sorry.",
       hint: "Her bedroom.",
       image: "media/selfie.jpg"
     },
-    { n: 4, pin: "den", title: "Safe harbor", riddle: "Find the harbor \u2014 soft, small, someone asleep against you.", clue: "You marked safe harbor. Last hide before the X: where she sleeps with the small one.", hint: "Couch or bed. By the dog.", image: "media/dog.jpg" },
+    {
+      n: 4, pin: "den", title: "I’m sorry",
+      quote: "I’m sorry.",
+      riddle: "You are already in the room.",
+      clue: "This is where you are comfortable now. Unfortunately I’m the one that made sure you don’t leave this room anymore. I’m sorry.",
+      hint: "Stay. The last mark is still in this room.",
+      image: "media/dog.jpg"
+    },
     { n: 5, pin: "cross", title: "X marks the spot", riddle: "Put your finger on the X.", final: true, letter: "Angela,\n\nSeptember 19, 2014. Twelve years.\n\nI built you a hunt because I wanted you to find something instead of just being handed a card. You already are the treasure. The codes were just a way to make you walk through our house and our pictures on the way here.\n\nThank you for the mornings, the trips, the sofa, the racing wheel, the dog piled on you, and every ordinary day that turned into a life.\n\nHappy anniversary.\nI love you.\n\nMalcolm", images: ["media/love.jpg","media/falls.jpg","media/selfie.jpg","media/dog.jpg","media/family.jpg","media/bath.jpg"], video: "media/race.mp4" }
   ]
 };
