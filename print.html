@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QR cards — print</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body class="print-page">
+  <div class="wrap no-print">
+    <h1>Cards to hide</h1>
+    <p>Print this page. Cut the cards. Hide them in order. The first card is the one you hand her.</p>
+    <p>Master list (you only):</p>
+    <ol id="key"></ol>
+    <p><a href="index.html">Open the site</a></p>
+  </div>
+  <div class="print-grid" id="grid"></div>
+  <script src="clues.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    const H = window.HUNT;
+    const grid = document.getElementById("grid");
+    const key = document.getElementById("key");
+    const base = H.baseUrl.endsWith("/") ? H.baseUrl : H.baseUrl + "/";
+    H.stops.forEach((s) => {
+      const url = `${base}?s=${s.n}`;
+      const id = "qr-" + s.n;
+      grid.insertAdjacentHTML("beforeend", `
+        <article class="print-card">
+          <div id="${id}" style="display:flex;justify-content:center"></div>
+          <div class="pn">${s.final ? "Final" : "·"}</div>
+          <div class="ps">scan</div>
+        </article>`);
+      new QRCode(document.getElementById(id), {
+        text: url,
+        width: 200,
+        height: 200,
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      key.insertAdjacentHTML("beforeend", `
+        <li>
+          <strong>Stop ${s.n}</strong> — ${s.title}<br />
+          URL: <code>${url}</code><br />
+          ${s.final ? "FINAL letter" : (s.clue || "")}
+          ${s.hint ? `<br />Hint: ${s.hint}` : ""}
+        </li>`);
+    });
+  </script>
+</body>
+</html>
