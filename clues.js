@@ -9,7 +9,7 @@ window.HUNT = {
   pins: [
     { id: "hearth",  n: 1, x: 72,  y: 198, label: "Cookies" },
     { id: "cliff",   n: 2, x: 168, y: 52,  label: "Game room" },
-    { id: "lantern", n: 3, x: 258, y: 128, label: "Close quarters" },
+    { id: "lantern", n: 3, x: 258, y: 128, label: "Bedroom" },
     { id: "den",     n: 4, x: 78,  y: 96,  label: "Harbor" },
     { id: "cross",   n: 5, x: 168, y: 158, label: "X" }
   ],
@@ -34,9 +34,9 @@ window.HUNT = {
     {
       n: 3, pin: "lantern", title: "Something with lights",
       quote: "I built you a lightbulb Christmas ornament.",
-      riddle: "Find the lantern \u2014 two heads close, the clock gone quiet.",
-      clue: "You marked close quarters. The next mark is where you lean in. Nightstand or the crash spot.",
-      hint: "Phone, bedside, where the selfies happen.",
+      riddle: "Find the quiet room on the map \u2014 the one that holds you.",
+      clue: "This is where you are comfortable now. Unfortunately I\u2019m the one that made sure you don\u2019t leave this room anymore. I\u2019m sorry.",
+      hint: "Her bedroom.",
       image: "media/selfie.jpg"
     },
     { n: 4, pin: "den", title: "Safe harbor", riddle: "Find the harbor \u2014 soft, small, someone asleep against you.", clue: "You marked safe harbor. Last hide before the X: where she sleeps with the small one.", hint: "Couch or bed. By the dog.", image: "media/dog.jpg" },
