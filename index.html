@@ -74,7 +74,16 @@
       const qEl = document.getElementById("quizQ");
       const inEl = document.getElementById("quizIn");
       const err = document.getElementById("quizErr");
-      function show() { qEl.textContent = questions[i].q; inEl.value = ""; err.hidden = true; inEl.focus(); }
+      function show() {
+        qEl.textContent = questions[i].q;
+        const pic = document.getElementById("quizPic");
+        const wrap = document.getElementById("quizPicWrap");
+        if (pic && wrap) {
+          if (questions[i].image) { pic.src = questions[i].image; wrap.hidden = false; }
+          else { wrap.hidden = true; pic.removeAttribute("src"); }
+        }
+        inEl.value = ""; err.hidden = true; inEl.focus();
+      }
       function check() {
         if (okAnswer(inEl.value, questions[i].a)) { i += 1; if (i >= questions.length) onDone(); else show(); }
         else { err.hidden = false; }
@@ -104,14 +113,14 @@
       const dateLocked = isFinal && H.finalUnlock && H.finalUnlock.trim() !== "";
       const img = stop.image ? `<div class="media"><img alt="" src="${stop.image}" /></div>` : "";
       const gallery = (stop.images || []).filter(Boolean).map((src) => `<img alt="" src="${src}" />`).join("");
-      const video = stop.video ? `<div class="media"><video controls playsinline src="${stop.video}"></video></div>` : "";
+      const video = stop.video ? `<div class="media"><video controls playsinline muted autoplay loop src="${stop.video}"></video></div>` : "";
       const hint = stop.hint ? `<div class="hint-wrap"><button type="button" id="hintBtn">A quieter hint</button><p class="hint" id="hintText">${stop.hint}</p></div>` : "";
       const hunt = isFinal
         ? `<p class="clue">${escapeHtml(stop.riddle || "Put your finger on the X.")}</p>${atlasSvg(stop.n)}<p class="map-note" id="mapNote">Touch the X to break the first seal.</p><div class="reveal" id="afterMap"><div id="lockBox" ${dateLocked ? "" : "hidden"}><p class="sub">Eight digits. The day the map began.</p><div class="unlock"><input id="unlockIn" inputmode="numeric" autocomplete="off" placeholder="MMDDYYYY" /><button type="button" id="unlockBtn">Break the seal</button></div><p class="err" id="unlockErr" hidden>Not that date.</p></div><div id="finalBox" ${dateLocked ? "hidden" : ""}><div class="letter">${escapeHtml(stop.letter || "")}</div>${gallery ? `<div class="gallery">${gallery}</div>` : ""}${video}</div></div>`
-        : `<p class="clue">${escapeHtml(stop.riddle || "")}</p>${atlasSvg(stop.n)}<p class="map-note" id="mapNote">Touch the right shore.</p><div class="reveal" id="afterMap"><p class="clue">${escapeHtml(stop.clue || "")}</p>${img}${hint}</div>`;
+        : `<p class="clue">${escapeHtml(stop.riddle || "")}</p>${video}${atlasSvg(stop.n)}<p class="map-note" id="mapNote">Touch the right shore.</p><div class="reveal" id="afterMap"><p class="clue">${escapeHtml(stop.clue || "")}</p>${img}${hint}</div>`;
       const questions = Array.isArray(stop.quiz) ? stop.quiz.filter((q) => q && q.q) : [];
       const quizHtml = questions.length
-        ? `<div id="quizBox"><p class="kicker" style="letter-spacing:0.18em">Remember</p><p class="clue" id="quizQ"></p><div class="unlock"><input id="quizIn" autocomplete="off" autocapitalize="none" /><button type="button" id="quizBtn">Answer</button></div><p class="err" id="quizErr" hidden>Not that.</p></div><div id="afterQuiz" hidden>${hunt}</div>`
+        ? `<div id="quizBox"><p class="kicker" style="letter-spacing:0.18em">Remember</p><div class="media" id="quizPicWrap" hidden><img id="quizPic" alt="" /></div><p class="clue" id="quizQ"></p><div class="unlock"><input id="quizIn" autocomplete="off" autocapitalize="none" /><button type="button" id="quizBtn">Answer</button></div><p class="err" id="quizErr" hidden>Not that.</p></div><div id="afterQuiz" hidden>${hunt}</div>`
         : hunt;
       const label = isFinal ? "X marks the spot" : `Chart ${roman(stop.n)} of ${roman(total)}`;
       document.getElementById("app").innerHTML = `${markIcon()}<p class="kicker">${label}</p><h2>${escapeHtml(stop.title || "")}</h2><div class="rule"></div><section class="card">${quizHtml}</section><p class="foot">${H.fromName} \u00b7 Angela</p>`;
