@@ -7,7 +7,7 @@ window.HUNT = {
   baseUrl: "https://seithreaper.github.io/for-her/",
   finalUnlock: "09192014",
   pins: [
-    { id: "hearth",  n: 1, x: 72,  y: 198, label: "Cookies" },
+    { id: "hearth",  n: 1, x: 72,  y: 198, label: "Game room" },
     { id: "cliff",   n: 2, x: 168, y: 52,  label: "High place" },
     { id: "lantern", n: 3, x: 258, y: 128, label: "Close quarters" },
     { id: "den",     n: 4, x: 78,  y: 96,  label: "Harbor" },
@@ -18,13 +18,13 @@ window.HUNT = {
       n: 1, pin: "hearth", title: "The first mark",
       quote: "I always try to make you something with lights.",
       quiz: [
-        { q: "You gave me full reign to do whatever I wanted in this space. What space was it?", a: [] },
+        { q: "You gave me full reign to do whatever I wanted in this space. What space was it?", a: ["game room","the game room","gameroom","gaming room","the gaming room","man cave"], image: "media/gameroom.jpg", clue: "Game room" },
         { q: "I built you things for our anniversary. One of them needed plexiglass. Do you remember what it was?", a: ["hologram","a hologram","the hologram","holograms","holographic"], image: "media/holo.jpg" }
       ],
-      riddle: "On this map, find the warm shore \u2014 flour, heat, the place you make cookies.",
-      clue: "The next mark is at The Place You Make Cookies.",
-      hint: "Kitchen. Oven. Mixing bowl.",
-      image: "media/love.jpg"
+      riddle: "On this map, find the room with the glow \u2014 screens, a wheel, the late-night shore.",
+      clue: "The next mark is in the game room.",
+      hint: "Green lights. Wheel. TV.",
+      image: "media/gameroom.jpg"
     },
     { n: 2, pin: "cliff", title: "The high place", riddle: "Find the cliff on the map \u2014 water falling, the world dropping away.", clue: "You marked the high place. Hunt the spot in the house where you sit together.", hint: "Couch, chairs, the watch-something-together place.", image: "media/falls.jpg" },
     { n: 3, pin: "lantern", title: "Close quarters", riddle: "Find the lantern \u2014 two heads close, the clock gone quiet.", clue: "You marked close quarters. The next mark is where you lean in. Nightstand or the crash spot.", hint: "Phone, bedside, where the selfies happen.", image: "media/selfie.jpg" },
