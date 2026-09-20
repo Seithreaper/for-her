@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>QR cards — print</title>
   <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body class="print-page">
   <div class="wrap no-print">
     <h1>Cards to hide</h1>
-    <p>Print this page. Cut the cards. Hide them in order. The first card is the one you hand her.</p>
+    <p>Print after the hunt is finished. Card <strong>1</strong> is the first barcode. Master list below is yours only.</p>
     <p>Master list (you only):</p>
     <ol id="key"></ol>
     <p><a href="index.html">Open the site</a></p>
@@ -29,14 +28,11 @@
       grid.insertAdjacentHTML("beforeend", `
         <article class="print-card">
           <div id="${id}" style="display:flex;justify-content:center"></div>
-          <div class="pn">${s.final ? "Final" : "·"}</div>
+          <div class="pn">${s.n}</div>
           <div class="ps">scan</div>
         </article>`);
       new QRCode(document.getElementById(id), {
-        text: url,
-        width: 200,
-        height: 200,
-        correctLevel: QRCode.CorrectLevel.M
+        text: url, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M
       });
       key.insertAdjacentHTML("beforeend", `
         <li>
