@@ -18,7 +18,7 @@
 <body>
   <div class="no-print">
     <p>Print this page. Cut on the dashed lines.</p>
-    <p>1 start · 2 cookies · 3 game room · 4 bedroom · 5 I'm sorry</p>
+    <p>Numbers only. Each location stays hidden until its clue is solved.</p>
     <p><button onclick="window.print()">Print</button></p>
   </div>
   <div class="sheet" id="sheet"></div>
@@ -28,16 +28,16 @@
     const H = window.HUNT;
     const base = H.baseUrl.endsWith("/") ? H.baseUrl : H.baseUrl + "/";
     const cards = [
-      { n: "1", w: "Start", url: base + "?s=1" },
-      { n: "2", w: "Cookies", url: base + "?s=2" },
-      { n: "3", w: "Game room", url: base + "?s=3" },
-      { n: "4", w: "Bedroom", url: base + "?s=4" },
-      { n: "5", w: "I'm sorry", url: base + "sorry.html" }
+      { n: "1", w: "", url: base + "?s=1" },
+      { n: "2", w: "", url: base + "?s=2" },
+      { n: "3", w: "", url: base + "?s=3" },
+      { n: "4", w: "", url: base + "?s=4" },
+      { n: "5", w: "", url: base + "sorry.html" }
     ];
     const sheet = document.getElementById("sheet");
     cards.forEach((c, i) => {
       const id = "q" + i;
-      sheet.insertAdjacentHTML("beforeend", `<div class="cell"><div id="${id}"></div><div class="n">${c.n}</div><div class="w">${c.w}</div></div>`);
+      sheet.insertAdjacentHTML("beforeend", `<div class="cell"><div id="${id}"></div><div class="n">${c.n}</div>${c.w ? `<div class="w">${c.w}</div>` : ""}</div>`);
       new QRCode(document.getElementById(id), { text: c.url, width: 160, height: 160, correctLevel: QRCode.CorrectLevel.M });
     });
   </script>
