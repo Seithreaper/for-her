@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1a120c" />
   <title>A map for Angela</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
@@ -36,27 +35,18 @@
         let cls = "pin dim";
         if (found.has(p.n) && p.n !== currentN) cls = "pin found";
         if (p.n === currentN) cls = "pin current";
-        const glyph = p.id === "cross"
-          ? `<path class="xmark" d="M${p.x-6} ${p.y-6}l12 12M${p.x+6} ${p.y-6}l-12 12"/>`
-          : `<circle class="dot" cx="${p.x}" cy="${p.y}" r="7"/>`;
+        const glyph = p.id === "cross" ? `<path class="xmark" d="M${p.x-6} ${p.y-6}l12 12M${p.x+6} ${p.y-6}l-12 12"/>` : `<circle class="dot" cx="${p.x}" cy="${p.y}" r="7"/>`;
         return `<g class="${cls}" data-id="${p.id}"><circle class="hit" cx="${p.x}" cy="${p.y}" r="22"/>${glyph}<text x="${p.x}" y="${p.y+20}" text-anchor="middle">${p.label}</text></g>`;
       }).join("");
-      return `<div class="atlas-wrap"><svg viewBox="0 0 320 260"><defs><linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f5d62"/><stop offset="1" stop-color="#163238"/></linearGradient></defs><rect width="320" height="260" fill="url(#sea)"/><ellipse cx="78" cy="198" rx="48" ry="28" fill="#6b4a2e"/><ellipse cx="168" cy="58" rx="52" ry="30" fill="#7a5340"/><ellipse cx="258" cy="130" rx="40" ry="26" fill="#5d4634"/><ellipse cx="82" cy="98" rx="44" ry="26" fill="#5a3f2c"/><ellipse cx="168" cy="160" rx="46" ry="32" fill="#8a5a32"/><polyline points="${path}" fill="none" stroke="#e0b566" stroke-opacity="0.45" stroke-width="1.6" stroke-dasharray="4 5"/>${pinSvg}</svg></div>`;
+      return `<div class="atlas-wrap"><svg viewBox="0 0 320 260"><rect width="320" height="260" fill="#163238"/><ellipse cx="78" cy="198" rx="48" ry="28" fill="#6b4a2e"/><ellipse cx="168" cy="58" rx="52" ry="30" fill="#7a5340"/><ellipse cx="258" cy="130" rx="40" ry="26" fill="#5d4634"/><ellipse cx="82" cy="98" rx="44" ry="26" fill="#5a3f2c"/><ellipse cx="168" cy="160" rx="46" ry="32" fill="#8a5a32"/><polyline points="${path}" fill="none" stroke="#e0b566" stroke-opacity="0.45" stroke-width="1.6" stroke-dasharray="4 5"/>${pinSvg}</svg></div>`;
     }
     function bindMap(wantId, onHit) {
       document.querySelectorAll(".pin").forEach((g) => {
         g.addEventListener("click", () => {
           const id = g.getAttribute("data-id");
           const note = document.getElementById("mapNote");
-          if (id === wantId) {
-            g.classList.remove("wrong","dim"); g.classList.add("current");
-            if (note) note.textContent = "Marked.";
-            onHit();
-          } else {
-            g.classList.add("wrong");
-            if (note) note.textContent = "Not this shore.";
-            setTimeout(() => g.classList.remove("wrong"), 600);
-          }
+          if (id === wantId) { g.classList.remove("wrong","dim"); g.classList.add("current"); if (note) note.textContent = "Marked."; onHit(); }
+          else { g.classList.add("wrong"); if (note) note.textContent = "Not this shore."; setTimeout(() => g.classList.remove("wrong"), 600); }
         });
       });
     }
@@ -74,19 +64,25 @@
       const qEl = document.getElementById("quizQ");
       const inEl = document.getElementById("quizIn");
       const err = document.getElementById("quizErr");
-      function show() {
-        qEl.textContent = questions[i].q;
+      function hidePic() {
         const pic = document.getElementById("quizPic");
         const wrap = document.getElementById("quizPicWrap");
-        if (pic && wrap) {
-          if (questions[i].image) { pic.src = questions[i].image; wrap.hidden = false; }
-          else { wrap.hidden = true; pic.removeAttribute("src"); }
-        }
+        if (pic && wrap) { wrap.hidden = true; pic.removeAttribute("src"); }
+      }
+      function show() {
+        qEl.textContent = questions[i].q;
+        hidePic();
         inEl.value = ""; err.hidden = true; inEl.focus();
+      }
+      function showClue() {
+        const pic = document.getElementById("quizPic");
+        const wrap = document.getElementById("quizPicWrap");
+        if (pic && wrap && questions[i].image) { pic.src = questions[i].image; wrap.hidden = false; }
+        err.hidden = false; err.textContent = "Not that. Look.";
       }
       function check() {
         if (okAnswer(inEl.value, questions[i].a)) { i += 1; if (i >= questions.length) onDone(); else show(); }
-        else { err.hidden = false; }
+        else showClue();
       }
       document.getElementById("quizBtn").addEventListener("click", check);
       inEl.addEventListener("keydown", (e) => { if (e.key === "Enter") check(); });
