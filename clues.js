@@ -31,7 +31,14 @@ window.HUNT = {
       hint: "Green lights. Wheel. TV.",
       image: "media/gameroom.jpg"
     },
-    { n: 3, pin: "lantern", title: "Close quarters", riddle: "Find the lantern \u2014 two heads close, the clock gone quiet.", clue: "You marked close quarters. The next mark is where you lean in. Nightstand or the crash spot.", hint: "Phone, bedside, where the selfies happen.", image: "media/selfie.jpg" },
+    {
+      n: 3, pin: "lantern", title: "Something with lights",
+      quote: "I built you a lightbulb Christmas ornament.",
+      riddle: "Find the lantern \u2014 two heads close, the clock gone quiet.",
+      clue: "You marked close quarters. The next mark is where you lean in. Nightstand or the crash spot.",
+      hint: "Phone, bedside, where the selfies happen.",
+      image: "media/selfie.jpg"
+    },
     { n: 4, pin: "den", title: "Safe harbor", riddle: "Find the harbor \u2014 soft, small, someone asleep against you.", clue: "You marked safe harbor. Last hide before the X: where she sleeps with the small one.", hint: "Couch or bed. By the dog.", image: "media/dog.jpg" },
     { n: 5, pin: "cross", title: "X marks the spot", riddle: "Put your finger on the X.", final: true, letter: "Angela,\n\nSeptember 19, 2014. Twelve years.\n\nI built you a hunt because I wanted you to find something instead of just being handed a card. You already are the treasure. The codes were just a way to make you walk through our house and our pictures on the way here.\n\nThank you for the mornings, the trips, the sofa, the racing wheel, the dog piled on you, and every ordinary day that turned into a life.\n\nHappy anniversary.\nI love you.\n\nMalcolm", images: ["media/love.jpg","media/falls.jpg","media/selfie.jpg","media/dog.jpg","media/family.jpg","media/bath.jpg"], video: "media/race.mp4" }
   ]
