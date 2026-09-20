@@ -4,12 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#1a120c" />
-  <meta name="robots" content="noindex,nofollow" />
   <title>A map for Angela</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
   <main class="wrap" id="app"></main>
@@ -18,26 +15,73 @@
     const params = new URLSearchParams(location.search);
     const n = parseInt(params.get("s") || "0", 10);
     const H = window.HUNT;
-    const t = (es, en) => (H.language === "en" ? en : es);
     const total = (H.stops || []).length;
-    function mark() {
-      return `<div class="mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="22" stroke="currentColor" stroke-width="1.4" opacity="0.85"/><circle cx="32" cy="32" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8" stroke="currentColor" stroke-width="1.4"/><path d="M32 18l3.2 10.4L46 32l-10.8 3.6L32 46l-3.2-10.4L18 32l10.8-3.6z" fill="currentColor"/></svg></div>`;
+    const KEY = "angela-atlas";
+    function foundSet() {
+      try { return new Set(JSON.parse(localStorage.getItem(KEY) || "[]")); }
+      catch { return new Set(); }
     }
+    function markFound(num) {
+      const s = foundSet(); s.add(num);
+      localStorage.setItem(KEY, JSON.stringify([...s]));
+    }
+    function markIcon() {
+      return `<div class="mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="22" stroke="currentColor" stroke-width="1.4"/><circle cx="32" cy="32" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8" stroke="currentColor" stroke-width="1.4"/><path d="M32 18l3.2 10.4L46 32l-10.8 3.6L32 46l-3.2-10.4L18 32l10.8-3.6z" fill="currentColor"/></svg></div>`;
+    }
+    function atlasSvg(currentN) {
+      const pins = H.pins || [];
+      const found = foundSet();
+      const path = pins.slice().sort((a,b)=>a.n-b.n).map(p => p.x+","+p.y).join(" ");
+      const pinSvg = pins.map((p) => {
+        let cls = "pin dim";
+        if (found.has(p.n) && p.n !== currentN) cls = "pin found";
+        if (p.n === currentN) cls = "pin current";
+        const glyph = p.id === "cross"
+          ? `<path class="xmark" d="M${p.x-6} ${p.y-6}l12 12M${p.x+6} ${p.y-6}l-12 12"/>`
+          : `<circle class="dot" cx="${p.x}" cy="${p.y}" r="7"/>`;
+        return `<g class="${cls}" data-id="${p.id}"><circle class="hit" cx="${p.x}" cy="${p.y}" r="22"/>${glyph}<text x="${p.x}" y="${p.y+20}" text-anchor="middle">${p.label}</text></g>`;
+      }).join("");
+      return `<div class="atlas-wrap"><svg viewBox="0 0 320 260"><defs><linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f5d62"/><stop offset="1" stop-color="#163238"/></linearGradient></defs><rect width="320" height="260" fill="url(#sea)"/><ellipse cx="78" cy="198" rx="48" ry="28" fill="#6b4a2e"/><ellipse cx="168" cy="58" rx="52" ry="30" fill="#7a5340"/><ellipse cx="258" cy="130" rx="40" ry="26" fill="#5d4634"/><ellipse cx="82" cy="98" rx="44" ry="26" fill="#5a3f2c"/><ellipse cx="168" cy="160" rx="46" ry="32" fill="#8a5a32"/><polyline points="${path}" fill="none" stroke="#e0b566" stroke-opacity="0.45" stroke-width="1.6" stroke-dasharray="4 5"/>${pinSvg}</svg></div>`;
+    }
+    function bindMap(wantId, onHit) {
+      document.querySelectorAll(".pin").forEach((g) => {
+        g.addEventListener("click", () => {
+          const id = g.getAttribute("data-id");
+          const note = document.getElementById("mapNote");
+          if (id === wantId) {
+            g.classList.remove("wrong","dim"); g.classList.add("current");
+            if (note) note.textContent = "Marked.";
+            onHit();
+          } else {
+            g.classList.add("wrong");
+            if (note) note.textContent = "Not this shore.";
+            setTimeout(() => g.classList.remove("wrong"), 600);
+          }
+        });
+      });
+    }
+    function roman(num) { return ({1:"I",2:"II",3:"III",4:"IV",5:"V"})[num] || String(num); }
+    function escapeHtml(s) { return String(s).replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">"); }
     function renderCover() {
-      document.getElementById("app").innerHTML = `${mark()}<p class="kicker">${H.fromName} · September 19</p><h1>${H.title}</h1><div class="rule"></div><p class="sub">${H.subtitle}</p><section class="card cover"><p>This map only opens from the codes. The first one is passed from his phone to yours.</p></section><div class="seal">XII<br/>years</div><p class="foot">${H.herName}</p>`;
+      document.getElementById("app").innerHTML = `${markIcon()}<p class="kicker">${H.fromName} \u00b7 September 19</p><h1>${H.title}</h1><div class="rule"></div><p class="sub">${H.subtitle}</p>${atlasSvg(0)}<p class="map-note">Five shores. The first mark comes from his phone.</p><section class="card cover"><p>This atlas only opens from the codes.</p></section><div class="seal">XII<br/>years</div><p class="foot">${H.herName}</p>`;
     }
     function renderStop(stop) {
       const isFinal = !!stop.final;
-      const locked = isFinal && H.finalUnlock && H.finalUnlock.trim() !== "";
+      const dateLocked = isFinal && H.finalUnlock && H.finalUnlock.trim() !== "";
       const img = stop.image ? `<div class="media"><img alt="" src="${stop.image}" /></div>` : "";
       const gallery = (stop.images || []).filter(Boolean).map((src) => `<img alt="" src="${src}" />`).join("");
       const video = stop.video ? `<div class="media"><video controls playsinline src="${stop.video}"></video></div>` : "";
       const hint = stop.hint ? `<div class="hint-wrap"><button type="button" id="hintBtn">A quieter hint</button><p class="hint" id="hintText">${stop.hint}</p></div>` : "";
-      const body = isFinal
-        ? `<div id="finalBox" ${locked ? "hidden" : ""}><div class="letter">${escapeHtml(stop.letter || "")}</div>${gallery ? `<div class="gallery">${gallery}</div>` : ""}${video}</div>${locked ? `<div id="lockBox"><p class="sub">Eight digits. The day the map began.</p><div class="unlock"><input id="unlockIn" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="MMDDYYYY" /><button type="button" id="unlockBtn">Break the seal</button></div><p class="err" id="unlockErr" hidden>Not that date.</p></div>` : ""}`
-        : `<p class="clue">${escapeHtml(stop.clue || "")}</p>${img}${video}${hint}`;
+      const hunt = isFinal
+        ? `<p class="clue">${escapeHtml(stop.riddle || "Put your finger on the X.")}</p>${atlasSvg(stop.n)}<p class="map-note" id="mapNote">Touch the X to break the first seal.</p><div class="reveal" id="afterMap"><div id="lockBox" ${dateLocked ? "" : "hidden"}><p class="sub">Eight digits. The day the map began.</p><div class="unlock"><input id="unlockIn" inputmode="numeric" autocomplete="off" placeholder="MMDDYYYY" /><button type="button" id="unlockBtn">Break the seal</button></div><p class="err" id="unlockErr" hidden>Not that date.</p></div><div id="finalBox" ${dateLocked ? "hidden" : ""}><div class="letter">${escapeHtml(stop.letter || "")}</div>${gallery ? `<div class="gallery">${gallery}</div>` : ""}${video}</div></div>`
+        : `<p class="clue">${escapeHtml(stop.riddle || "")}</p>${atlasSvg(stop.n)}<p class="map-note" id="mapNote">Touch the right shore.</p><div class="reveal" id="afterMap"><p class="clue">${escapeHtml(stop.clue || "")}</p>${img}${hint}</div>`;
       const label = isFinal ? "X marks the spot" : `Chart ${roman(stop.n)} of ${roman(total)}`;
-      document.getElementById("app").innerHTML = `${mark()}<p class="kicker">${label}</p><h2>${escapeHtml(stop.title || "")}</h2><div class="rule"></div><section class="card">${body}</section><p class="foot">${H.fromName} · Angela</p>`;
+      document.getElementById("app").innerHTML = `${markIcon()}<p class="kicker">${label}</p><h2>${escapeHtml(stop.title || "")}</h2><div class="rule"></div><section class="card">${hunt}</section><p class="foot">${H.fromName} \u00b7 Angela</p>`;
+      bindMap(stop.pin, () => {
+        markFound(stop.n);
+        const box = document.getElementById("afterMap");
+        if (box) box.classList.add("open");
+      });
       const hb = document.getElementById("hintBtn");
       if (hb) hb.addEventListener("click", () => document.getElementById("hintText").classList.add("show"));
       const ub = document.getElementById("unlockBtn");
@@ -51,8 +95,6 @@
       if (val === want) { document.getElementById("lockBox").hidden = true; document.getElementById("finalBox").hidden = false; }
       else { document.getElementById("unlockErr").hidden = false; }
     }
-    function roman(n) { return ({1:"I",2:"II",3:"III",4:"IV",5:"V"})[n] || String(n); }
-    function escapeHtml(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
     const stop = (H.stops || []).find((x) => x.n === n);
     if (!stop) renderCover(); else renderStop(stop);
   </script>
