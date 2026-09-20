@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#140e10" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Para vos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="wrap" id="app"></main>
+  <script src="clues.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const n = parseInt(params.get("s") || "0", 10);
+    const H = window.HUNT;
+    const t = (es, en) => (H.language === "en" ? en : es);
+
+    function heart() {
+      return `<div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.33-8.02C.7 10.4 1.1 6.9 4.1 5.4c2-.98 4.2-.2 5.5 1.5C10.9 5.2 13.1 4.42 15.1 5.4c3 1.5 3.4 5 1.43 7.58C18.7 16.65 12 21 12 21z"/></svg>
+      </div>`;
+    }
+
+    function renderCover() {
+      document.getElementById("app").innerHTML = `
+        ${heart()}
+        <p class="kicker">${H.fromName}</p>
+        <h1>${H.title}</h1>
+        <div class="rule"></div>
+        <p class="sub">${H.subtitle}</p>
+        <section class="card cover">
+          <p>${t(
+            "Esta página se abre con los códigos. Pedile el primero a quien organizó esto.",
+            "This page opens from the codes. Ask whoever planned this for the first one."
+          )}</p>
+        </section>
+        <p class="foot">${H.herName}</p>`;
+    }
+
+    function renderStop(stop) {
+      const isFinal = !!stop.final;
+      const locked = isFinal && H.finalUnlock && H.finalUnlock.trim() !== "";
+      const img = stop.image
+        ? `<div class="media"><img alt="" src="${stop.image}" /></div>`
+        : "";
+      const gallery = (stop.images || [])
+        .filter(Boolean)
+        .map((src) => `<img alt="" src="${src}" />`)
+        .join("");
+      const audio = stop.audio
+        ? `<audio controls src="${stop.audio}"></audio>`
+        : "";
+      const hint = stop.hint
+        ? `<div class="hint-wrap">
+             <button type="button" id="hintBtn">${t("Necesito una pista", "I need a hint")}</button>
+             <p class="hint" id="hintText">${stop.hint}</p>
+           </div>`
+        : "";
+
+      const body = isFinal
+        ? `<div id="finalBox" ${locked ? "hidden" : ""}>
+             <div class="letter">${escapeHtml(stop.letter || "")}</div>
+             ${gallery ? `<div class="gallery">${gallery}</div>` : ""}
+             ${audio}
+           </div>
+           ${locked ? `<div id="lockBox">
+             <p class="sub">${t("Una palabra para abrir la carta.", "One word opens the letter.")}</p>
+             <div class="unlock">
+               <input id="unlockIn" autocomplete="off" autocapitalize="none" />
+               <button type="button" id="unlockBtn">${t("Abrir", "Open")}</button>
+             </div>
+             <p class="err" id="unlockErr" hidden>${t("No es esa.", "Not that one.")}</p>
+           </div>` : ""}`
+        : `<p class="clue">${escapeHtml(stop.clue || "")}</p>${img}${audio}${hint}`;
+
+      document.getElementById("app").innerHTML = `
+        ${heart()}
+        <p class="kicker">${t("Pista", "Clue")} ${stop.n}</p>
+        <h2>${escapeHtml(stop.title || "")}</h2>
+        <div class="rule"></div>
+        <section class="card">${body}</section>
+        <p class="foot">${H.fromName}</p>`;
+
+      const hb = document.getElementById("hintBtn");
+      if (hb) hb.addEventListener("click", () => {
+        document.getElementById("hintText").classList.add("show");
+      });
+      const ub = document.getElementById("unlockBtn");
+      if (ub) ub.addEventListener("click", tryUnlock);
+    }
+
+    function tryUnlock() {
+      const val = (document.getElementById("unlockIn").value || "").trim().toLowerCase();
+      const want = H.finalUnlock.trim().toLowerCase();
+      if (val === want) {
+        document.getElementById("lockBox").hidden = true;
+        document.getElementById("finalBox").hidden = false;
+      } else {
+        document.getElementById("unlockErr").hidden = false;
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    const stop = (H.stops || []).find((x) => x.n === n);
+    if (!stop) renderCover();
+    else renderStop(stop);
+  </script>
+</body>
+</html>
