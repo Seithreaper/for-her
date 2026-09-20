@@ -7,10 +7,10 @@ window.HUNT = {
   baseUrl: "https://seithreaper.github.io/for-her/",
   finalUnlock: "09192014",
   pins: [
-    { id: "hearth",  n: 1, x: 72,  y: 198, label: "Cookies" },
-    { id: "cliff",   n: 2, x: 168, y: 52,  label: "Game room" },
-    { id: "lantern", n: 3, x: 258, y: 128, label: "Bedroom" },
-    { id: "den",     n: 4, x: 78,  y: 96,  label: "I’m sorry" },
+    { id: "hearth",  n: 1, x: 72,  y: 198, label: "I" },
+    { id: "cliff",   n: 2, x: 168, y: 52,  label: "II" },
+    { id: "lantern", n: 3, x: 258, y: 128, label: "III" },
+    { id: "den",     n: 4, x: 78,  y: 96,  label: "IV" },
     { id: "cross",   n: 5, x: 168, y: 158, label: "X" }
   ],
   stops: [
