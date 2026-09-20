@@ -4,18 +4,47 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>I'm sorry</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,600&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { min-height: 100dvh; background: #1a120c; color: #3a2418; font-family: "Cormorant Garamond", Georgia, serif; }
+    .tabs { display: flex; justify-content: center; gap: 8px; padding: 12px; }
+    .tabs a { color: #e0b566; text-decoration: none; border: 1px solid rgba(224,181,102,.38); padding: 6px 14px; border-radius: 999px; font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; font-family: Georgia, serif; }
+    .tabs a.on { background: #6e2b32; color: #f3e2c4; }
+    .stage { display: flex; justify-content: center; padding: 0 12px 48px; }
+    .scroll {
+      width: min(42rem, 100%);
+      position: relative;
+      background: radial-gradient(120% 80% at 10% 0%, rgba(255,255,255,.18), transparent 42%), repeating-linear-gradient(0deg, rgba(90,50,20,.04) 0 2px, transparent 2px 7px), linear-gradient(180deg, #f6e2bc 0%, #ead2a0 48%, #e0c48c 100%);
+      color: #3a2418; padding: 2.2rem 1.6rem 2.4rem;
+      box-shadow: inset 0 0 40px rgba(90,50,20,.18), 0 18px 40px rgba(0,0,0,.45);
+    }
+    .scroll:before, .scroll:after {
+      content: ""; position: absolute; left: -10px; right: -10px; height: 28px; border-radius: 14px;
+      background: linear-gradient(90deg, #6b4220, #c9a46a 18%, #8a5a28 50%, #c9a46a 82%, #6b4220);
+      box-shadow: 0 6px 10px rgba(0,0,0,.35);
+    }
+    .scroll:before { top: -14px; }
+    .scroll:after { bottom: -14px; }
+    .seal { width: 54px; height: 54px; margin: 0 auto 10px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #b84a4a, #6e2b32 70%); color: #f6ead6; display: flex; align-items: center; justify-content: center; font-family: "Great Vibes", cursive; font-size: 1.6rem; box-shadow: 0 4px 0 #4a1518; }
+    h1 { font-family: "Great Vibes", cursive; font-size: clamp(2.8rem, 12vw, 4.4rem); font-weight: 400; text-align: center; margin: 0 0 1rem; color: #6e2b32; }
+    .to { text-align: center; letter-spacing: .2em; text-transform: uppercase; font-size: .78rem; margin-bottom: 1rem; }
+    .body { white-space: pre-wrap; font-size: 1.16rem; line-height: 1.5; text-align: left; }
+    .sign { font-family: "Great Vibes", cursive; font-size: 2rem; text-align: right; margin-top: 1.4rem; color: #6e2b32; }
+  </style>
 </head>
-<body class="sorry-page">
+<body>
   <nav class="tabs">
     <a href="index.html">The map</a>
     <a class="on" href="sorry.html">I'm sorry</a>
   </nav>
-  <main class="poster letter-poster">
-    <p class="poster-kicker">Angela</p>
-    <h1>I'm sorry</h1>
-    <div class="letter sorry-letter">My love,
+  <div class="stage">
+    <article class="scroll">
+      <div class="seal">A</div>
+      <p class="to">For Angela</p>
+      <h1>I'm sorry</h1>
+      <div class="body">My love,
 
 I am truly sorry. I hurt you, and I ruined an anniversary that should have made you feel loved, appreciated, and important to me. You deserved better from me.
 
@@ -30,7 +59,8 @@ I don't expect one letter or one promise to repair everything. I know trust is r
 I am deeply sorry for hurting you. I love you, and I am asking for the chance to listen, understand, and try to repair what I have damaged. Whatever happens next, you deserved this apology without excuses.
 
 I'm sorry.</div>
-    <p class="poster-from">— Malcolm</p>
-  </main>
+      <p class="sign">Malcolm</p>
+    </article>
+  </div>
 </body>
 </html>
