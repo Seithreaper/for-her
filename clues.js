@@ -7,7 +7,7 @@ window.HUNT = {
   baseUrl: "https://seithreaper.github.io/for-her/",
   finalUnlock: "09192014",
   stops: [
-    { n: 1, title: "Where it started", clue: "First stop. The next code is where the day begins \u2014 near the cups.", hint: "Kitchen. Think coffee.", image: "media/love.jpg" },
+    { n: 1, title: "Where it started", clue: "This one came from my phone to yours. The next code is where the day begins \u2014 near the cups.", hint: "Kitchen. Think coffee.", image: "media/love.jpg" },
     { n: 2, title: "Out there", clue: "Good. Now look where the world drops away and it is just us.", hint: "Where you sit together.", image: "media/falls.jpg" },
     { n: 3, title: "Close", clue: "Almost. Next code is near where you two lean in and the clock does not matter.", hint: "Phone, nightstand, or the spot you crash.", image: "media/selfie.jpg" },
     { n: 4, title: "Home", clue: "Last hide: where she sleeps with the small one. Soft. Quiet.", hint: "Couch or bed. Look by the dog.", image: "media/dog.jpg" },
